@@ -2,3 +2,4 @@ fake_news/*.csv
 *.csv
 venv/
 __pycache__/
+.env
