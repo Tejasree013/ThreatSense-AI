@@ -34,12 +34,16 @@ def fact_check(news_text):
 
     if data.get("status") == "ok":
 
-        trusted_sources = [
-        "Reuters",
-        "BBC News",
-        "CNN",
-        "Associated Press",
-        "The Guardian"
+       trusted_sources = [
+    "Reuters",
+    "BBC News",
+    "CNN",
+    "Associated Press",
+    "The Guardian",
+    "The Indian Express",
+    "The Times of India",
+    "Yahoo Entertainment",
+    "Economic Times"
     ]
 
     for article in data.get("articles", []):
