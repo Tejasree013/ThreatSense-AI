@@ -18,7 +18,12 @@ app.secret_key = "madhu_secret_key"
 
 latest_report = {}
 
-client = MongoClient("mongodb://localhost:27017/")
+from dotenv import load_dotenv
+load_dotenv()
+
+MONGO_URI = os.getenv("MONGO_URI")
+
+client = MongoClient(MONGO_URI)
 db = client["document_security"]
 users = db["users"]
 
