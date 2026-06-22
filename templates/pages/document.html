@@ -1,0 +1,338 @@
+<div class="doc-layout">
+
+    <div class="doc-left">
+
+        <div class="doc-card">
+
+            <div class="doc-title">
+                📄 Document Input Zone
+            </div>
+
+            <div class="doc-subtitle">
+                Piped contents are vetted, extracted, and compared against active heuristics.
+            </div>
+
+            <form action="/scan" method="POST" enctype="multipart/form-data">
+
+                <label class="upload-box">
+
+                    <input type="file" name="file" hidden>
+
+                    <div class="upload-icon">
+                        ⬆
+                    </div>
+
+                    <h3>
+                        Drag and drop document, or click to browse
+                    </h3>
+
+                    <p>
+                        Supports DOCX, PDF, or Plain TXT
+                    </p>
+
+                </label>
+
+                <div class="textarea-label">
+                    OR PASTE/EDIT DOCUMENT TEXTS DIRECTLY:
+                </div>
+
+                <textarea
+                    placeholder="Paste corporate communications, legal reports, scripts, or audit elements..."></textarea>
+
+                <div class="scan-footer">
+
+                    <span>
+                        INPUT EMPTY
+                    </span>
+
+                    <button class="scan-btn">
+                        ▶ Analyze Security Risk
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="preset-card">
+
+            <div class="preset-title">
+                ✦ QUICK THREAT MANIFEST PRESETS:
+            </div>
+
+            <div class="preset-grid">
+
+                <div class="preset safe">
+
+                    <span>SAFE</span>
+
+                    <h4>
+                        Clean Corporate Invoice.txt
+                    </h4>
+
+                    <p>
+                        ⊗ Load File
+                    </p>
+
+                </div>
+
+                <div class="preset medium">
+
+                    <span>MEDIUM</span>
+
+                    <h4>
+                        Payroll Manifest (Medium Risk).docx
+                    </h4>
+
+                    <p>
+                        ⊗ Load File
+                    </p>
+
+                </div>
+
+                <div class="preset critical">
+
+                    <span>CRITICAL</span>
+
+                    <h4>
+                        Backdoor Overwrite (Critical High Risk).pdf
+                    </h4>
+
+                    <p>
+                        ⊗ Load File
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="doc-right">
+
+        <div class="audit-card">
+
+            <div class="audit-icon">
+                🛡
+            </div>
+
+            <h2>
+                Audit Awaiting Analysis
+            </h2>
+
+            <p>
+                Upload or paste code/text content on the left screen,
+                then click analyze to view vulnerability and trust factor audits.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if report %}
+<pre>{{ report }}</pre>
+{% endif %}
+
+<style>
+
+.doc-layout{
+display:grid;
+grid-template-columns:58% 42%;
+gap:22px;
+}
+
+.doc-card{
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+padding:20px;
+}
+
+.doc-title{
+font-size:30px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.doc-subtitle{
+font-size:13px;
+color:#7f8fb5;
+margin-bottom:20px;
+}
+
+.upload-box{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:180px;
+border:1px dashed rgba(255,255,255,.1);
+border-radius:20px;
+cursor:pointer;
+background:#051022;
+}
+
+.upload-icon{
+width:55px;
+height:55px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#0f1836;
+font-size:24px;
+margin-bottom:15px;
+}
+
+.upload-box h3{
+font-size:18px;
+margin-bottom:8px;
+}
+
+.upload-box p{
+font-size:13px;
+color:#8290b8;
+}
+
+.textarea-label{
+margin-top:18px;
+margin-bottom:10px;
+font-size:12px;
+letter-spacing:1px;
+color:#6d7ca7;
+}
+
+.doc-card textarea{
+width:100%;
+height:150px;
+background:#020b1f;
+border:1px solid rgba(255,255,255,.08);
+border-radius:14px;
+padding:15px;
+color:white;
+}
+
+.scan-footer{
+margin-top:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.scan-footer span{
+font-size:11px;
+color:#6f7ea6;
+}
+
+.scan-btn{
+padding:14px 25px;
+border:none;
+border-radius:12px;
+background:#1b2d4f;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.audit-card{
+height:100%;
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:40px;
+}
+
+.audit-icon{
+width:80px;
+height:80px;
+border-radius:50%;
+background:#020917;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:38px;
+margin-bottom:20px;
+}
+
+.audit-card h2{
+font-size:28px;
+margin-bottom:12px;
+}
+
+.audit-card p{
+max-width:400px;
+color:#7c89ad;
+line-height:1.6;
+}
+
+.preset-card{
+margin-top:20px;
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+padding:20px;
+}
+
+.preset-title{
+font-size:13px;
+letter-spacing:1px;
+margin-bottom:18px;
+color:#8da0d1;
+}
+
+.preset-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.preset{
+background:#050f21;
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+padding:15px;
+}
+
+.preset span{
+font-size:10px;
+padding:4px 8px;
+border-radius:6px;
+}
+
+.safe span{
+background:#0f2f1c;
+color:#22ff8b;
+}
+
+.medium span{
+background:#392d08;
+color:#ffbc32;
+}
+
+.critical span{
+background:#351014;
+color:#ff5a5a;
+}
+
+.preset h4{
+margin-top:12px;
+font-size:14px;
+}
+
+.preset p{
+margin-top:10px;
+font-size:12px;
+color:#7482aa;
+}
+
+</style>

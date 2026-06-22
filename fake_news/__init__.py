@@ -1,0 +1,1 @@
+from fake_news.fake_news_detector import detect_news

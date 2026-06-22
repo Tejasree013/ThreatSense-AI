@@ -1,0 +1,631 @@
+<div class="heatmap-layout">
+
+    <!-- LEFT SIDE -->
+    <div class="heat-left">
+
+        <div class="heat-header">
+            🔥 AI Threat Heatmap Telemetry
+        </div>
+
+        <div class="heat-subtitle">
+            Active visualization of vulnerability scans, categorized by systemic regions and signature matrices.
+        </div>
+
+        <div class="zone-card">
+
+    <div class="risk-header">
+        📊 Category Risk Breakdown
+    </div>
+
+    <div class="scale-row">
+        <span>0</span>
+        <span>25</span>
+        <span>50</span>
+        <span>75</span>
+        <span>100</span>
+    </div>
+
+    <div class="risk-item">
+
+        <div class="risk-icon purple-bg">🔍</div>
+
+        <div class="risk-text">
+            Suspicious Keywords
+        </div>
+
+        <div class="risk-track">
+            <div class="risk-fill purple-fill keyword-fill"></div>
+        </div>
+
+        <div class="risk-score purple-score">
+            <span id="keywordScore">0</span>/100
+        </div>
+
+    </div>
+
+    <div class="risk-item">
+
+        <div class="risk-icon orange-bg">🔗</div>
+
+        <div class="risk-text">
+            Suspicious Links
+        </div>
+
+        <div class="risk-track">
+            <div class="risk-fill orange-fill link-fill"></div>
+        </div>
+
+        <div class="risk-score orange-score">
+            <span id="linkScore">0</span>/100
+        </div>
+
+    </div>
+
+    <div class="risk-item">
+
+        <div class="risk-icon blue-bg">🖼️</div>
+
+        <div class="risk-text">
+            Image Analysis
+        </div>
+
+        <div class="risk-track">
+            <div class="risk-fill blue-fill image-fill"></div>
+        </div>
+
+        <div class="risk-score blue-score">
+            <span id="imageScore">0</span>/100
+        </div>
+
+    </div>
+
+    <div class="risk-item">
+
+        <div class="risk-icon red-bg">💻</div>
+
+        <div class="risk-text">
+            Executable References
+        </div>
+
+        <div class="risk-track">
+            <div class="risk-fill red-fill exe-fill"></div>
+        </div>
+
+        <div class="risk-score red-score">
+            <span id="exeScore">0</span>/100
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="heat-right">
+
+        <div class="threat-card">
+
+            <h2>⚙ Threat Level Matrix</h2>
+
+            <div class="metric-grid">
+
+                <div class="metric-box">
+                    <small>ACTIVE MALWARE</small>
+                    <h1>{{ latest_report['keyword_count'] if latest_report else 0 }}</h1>
+                </div>
+
+                <div class="metric-box">
+                    <small>INSECURE URLS</small>
+                    <h1>{{ latest_report['link_count'] if latest_report else 0 }}</h1>
+                </div>
+
+                <div class="metric-box">
+                    <small>TOTAL IMAGES</small>
+                    <h1>{{ latest_report['image_count'] if latest_report else 0 }}</h1>
+                </div>
+
+                <div class="metric-box">
+    <small>EXECUTABLES</small>
+    <h1>{{ latest_report['exe_count'] if latest_report else 0 }}</h1>
+</div>
+
+            </div>
+
+            <div class="donut-card">
+
+                <h3>🎯 Threat Intensity</h3>
+
+                <div class="donut-wrapper">
+
+                    <div class="donut-chart">
+    <canvas id="threatDonut" width="220" height="220"></canvas>
+</div>
+
+                    <div class="donut-legend">
+
+                        <div class="legend-item">
+                            <span>
+                                <span class="dot red"></span>
+                                Keywords
+                            </span>
+                            <b>{{ latest_report['keyword_count'] if latest_report else 0 }}</b>
+                        </div>
+
+                        <div class="legend-item">
+                            <span>
+                                <span class="dot orange"></span>
+                                Links
+                            </span>
+                            <b>{{ latest_report['link_count'] if latest_report else 0 }}</b>
+                        </div>
+
+                        <div class="legend-item">
+                            <span>
+                                <span class="dot blue"></span>
+                                Images
+                            </span>
+                            <b>{{ latest_report['image_count'] if latest_report else 0 }}</b>
+                        </div>
+
+                        <div class="legend-item">
+                            <span>
+                                <span class="dot purple"></span>
+                                Executables
+                            </span>
+                            <b>{{ latest_report['exe_count'] if latest_report else 0 }}</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const keywordCount = Number("{{ latest_report.keyword_count | default(0) }}");
+const linkCount = Number("{{ latest_report.link_count | default(0) }}");
+const imageCount = Number("{{ latest_report.image_count | default(0) }}");
+const exeCount = Number("{{ latest_report.exe_count | default(0) }}");
+
+const keywordRisk = Math.min(keywordCount * 40, 100);
+const linkRisk = Math.min(linkCount * 40, 100);
+const imageRisk = Math.min(imageCount * 40, 100);
+const exeRisk = Math.min(exeCount * 40, 100);
+
+window.onload = function(){
+
+    document.querySelector(".keyword-fill").style.width = keywordRisk + "%";
+    document.querySelector(".link-fill").style.width = linkRisk + "%";
+    document.querySelector(".image-fill").style.width = imageRisk + "%";
+    document.querySelector(".exe-fill").style.width = exeRisk + "%";
+
+    document.getElementById("keywordScore").innerText = keywordRisk;
+    document.getElementById("linkScore").innerText = linkRisk;
+    document.getElementById("imageScore").innerText = imageRisk;
+    document.getElementById("exeScore").innerText = exeRisk;
+};
+
+const donutData = [
+    keywordCount,
+    linkCount,
+    imageCount,
+    exeCount
+];
+
+
+
+
+
+const donutCtx = document.getElementById("threatDonut").getContext("2d");
+
+const totalThreats =
+    donutData[0] +
+    donutData[1] +
+    donutData[2] +
+    donutData[3];
+
+new Chart(donutCtx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Keywords",
+            "Links",
+            "Images",
+            "Executables"
+        ],
+
+        datasets: [{
+
+            data: donutData,
+
+            backgroundColor: [
+                "#ff4d4d",
+                "#ff9900",
+                "#18d7ff",
+                "#9b6dff"
+            ],
+
+            borderWidth: 0
+
+        }]
+    },
+
+    options: {
+
+        cutout: "72%",
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+                display: false
+            }
+
+        }
+
+    },
+
+    plugins: [{
+
+        id: "centerText",
+
+        beforeDraw(chart) {
+
+            const { width } = chart;
+            const { height } = chart;
+            const ctx = chart.ctx;
+
+            ctx.restore();
+
+            ctx.font = "bold 34px Arial";
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            ctx.fillText(
+                totalThreats,
+                width / 2,
+                height / 2 - 10
+            );
+
+            ctx.font = "14px Arial";
+            ctx.fillStyle = "#8fa0ca";
+
+            ctx.fillText(
+                "Overall",
+                width / 2,
+                height / 2 + 22
+            );
+
+            ctx.save();
+        }
+
+    }]
+
+});
+
+</script>
+
+<style>
+
+.heatmap-layout{
+    display:grid;
+    grid-template-columns:58% 42%;
+    gap:22px;
+}
+
+.heat-header{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.heat-subtitle{
+    font-size:13px;
+    color:#8b9bc4;
+    margin-bottom:20px;
+}
+
+.zone-card,
+.threat-card,
+.graph-card{
+    background:#071227;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:24px;
+    padding:22px;
+}
+.zone-card{
+    min-height:420px;
+}
+
+.risk-header{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.scale-row{
+    display:flex;
+    justify-content:space-between;
+    color:#8ea1d0;
+    font-size:13px;
+    margin-left:255px;
+    margin-right:95px;
+    margin-bottom:20px;
+}
+
+.risk-item{
+    display:grid;
+    grid-template-columns:50px 190px 1fr 90px;
+    gap:15px;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.risk-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+}
+
+.risk-text{
+    color:#e6eeff;
+    font-size:15px;
+    font-weight:600;
+}
+
+.risk-track{
+    height:12px;
+    background:#0d1b38;
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.risk-fill{
+    height:100%;
+    border-radius:30px;
+    transition:1s;
+}
+
+.purple-fill{
+    background:linear-gradient(90deg,#6a35ff,#c54bff);
+}
+
+.orange-fill{
+    background:linear-gradient(90deg,#ff7b00,#ffbf00);
+}
+
+.blue-fill{
+    background:linear-gradient(90deg,#0078ff,#19d3ff);
+}
+
+.red-fill{
+    background:linear-gradient(90deg,#ff3b3b,#ff2858);
+}
+
+.purple-bg{
+    background:#4e28d8;
+}
+
+.orange-bg{
+    background:#ff8a00;
+}
+
+.blue-bg{
+    background:#0a72ff;
+}
+
+.red-bg{
+    background:#ff3b3b;
+}
+
+.risk-score{
+    text-align:center;
+    font-size:14px;
+    font-weight:700;
+    padding:8px 10px;
+    border-radius:10px;
+}
+
+.purple-score{
+    color:#d38cff;
+    border:1px solid #8b5cf6;
+}
+
+.orange-score{
+    color:#ffb347;
+    border:1px solid #ff9800;
+}
+
+.blue-score{
+    color:#61dfff;
+    border:1px solid #18d7ff;
+}
+
+.red-score{
+    color:#ff7f7f;
+    border:1px solid #ff4d4d;
+}
+.metric-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:20px;
+}
+
+.metric-box{
+    background:#020b1f;
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+}
+
+.metric-box small{
+    color:#7f8fb8;
+}
+
+.metric-box h1{
+    margin-top:10px;
+    font-size:42px;
+}
+
+.graph-card{
+    margin-top:20px;
+    min-height:450px;
+}
+
+.threat-card{
+    margin-top:20px;
+}
+
+.category-risk-list{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    margin-top:25px;
+}
+
+.risk-row{
+    display:grid;
+    grid-template-columns:50px 180px 1fr 70px;
+    align-items:center;
+    gap:16px;
+}
+
+.risk-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    color:#fff;
+}
+
+.risk-label{
+    color:#dce7ff;
+    font-size:15px;
+    font-weight:600;
+}
+
+.risk-bar-container{
+    height:12px;
+    background:#0f1c38;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.risk-bar{
+    height:100%;
+    border-radius:50px;
+}
+
+.purple-bar{
+    background:linear-gradient(90deg,#8b5cf6,#b794f4);
+}
+
+.orange-bar{
+    background:linear-gradient(90deg,#ff9800,#ffc857);
+}
+
+.blue-bar{
+    background:linear-gradient(90deg,#00cfff,#5ce1ff);
+}
+
+.red-bar{
+    background:linear-gradient(90deg,#ff4d4d,#ff7a7a);
+}
+
+.risk-value{
+    text-align:right;
+    color:#ffffff;
+    font-size:18px;
+    font-weight:700;
+}
+
+.donut-card{
+    margin-top:25px;
+    background:#020b1f;
+    border-radius:18px;
+    padding:20px;
+}
+
+.donut-card h3{
+    margin-bottom:20px;
+    font-size:18px;
+}
+
+.donut-wrapper{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.donut-chart{
+    width:220px;
+    height:220px;
+    position:relative;
+}
+
+.donut-chart canvas{
+    width:220px !important;
+    height:220px !important;
+}
+.donut-legend{
+    flex:1;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+    color:#d8e2ff;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:10px;
+}
+
+.red{
+    background:#ff4d4d;
+}
+
+.orange{
+    background:#ff9900;
+}
+
+.blue{
+    background:#18d7ff;
+}
+
+.purple{
+    background:#9b6dff;
+}
+
+</style>

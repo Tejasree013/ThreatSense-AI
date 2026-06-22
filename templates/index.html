@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Threat Monitor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#030b1d;
+overflow:hidden;
+color:white;
+}
+
+.dashboard-container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#040915;
+border-right:1px solid rgba(255,255,255,.08);
+display:flex;
+flex-direction:column;
+padding:18px;
+}
+
+.logo{
+height:55px;
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:700;
+font-size:18px;
+margin-bottom:20px;
+}
+
+.logo::before{
+content:"🛡️";
+font-size:22px;
+}
+
+.sidebar a{
+text-decoration:none;
+color:#a9b7e7;
+padding:14px 16px;
+margin-bottom:8px;
+border-radius:12px;
+transition:.3s;
+font-size:14px;
+font-weight:500;
+}
+
+.sidebar a:hover{
+background:linear-gradient(
+90deg,
+#462dff,
+#2f4fff
+);
+color:white;
+}
+
+.profile-card{
+margin-top:auto;
+border:1px solid rgba(255,255,255,.1);
+padding:14px;
+border-radius:14px;
+background:#071226;
+}
+
+.profile-card h4{
+font-size:14px;
+margin-bottom:5px;
+}
+
+.profile-card p{
+font-size:12px;
+color:#9ca6d4;
+margin-bottom:10px;
+}
+
+.profile-card button{
+width:100%;
+height:38px;
+background:#0e1f3f;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* MAIN */
+
+.main-content{
+flex:1;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+/* TOPBAR */
+
+.topbar{
+height:65px;
+background:#071024;
+border-bottom:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 25px;
+}
+
+.status{
+background:#081a37;
+padding:10px 16px;
+border-radius:10px;
+font-size:12px;
+color:#00d9ff;
+font-weight:600;
+}
+
+.profile{
+background:#0f1d3f;
+padding:10px 18px;
+border-radius:12px;
+font-size:13px;
+font-weight:600;
+}
+
+/* CONTENT */
+
+.content-area{
+flex:1;
+overflow:auto;
+padding:24px;
+}
+
+/* HERO */
+
+.hero-banner{
+background:linear-gradient(
+90deg,
+#1d1b52,
+#071d42
+);
+border:1px solid rgba(0,195,255,.15);
+border-radius:28px;
+padding:30px;
+margin-bottom:25px;
+}
+
+.version{
+display:inline-block;
+padding:10px 18px;
+border-radius:30px;
+background:#0d3a5a;
+color:#00d9ff;
+font-size:12px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.hero-banner h1{
+font-size:46px;
+font-weight:800;
+margin-bottom:15px;
+}
+
+.hero-banner p{
+font-size:18px;
+color:#d5dcff;
+line-height:1.6;
+max-width:800px;
+}
+
+.hero-banner span{
+font-weight:700;
+color:white;
+}
+
+.danger{
+color:#ff4d5a !important;
+}
+
+.hero-buttons{
+margin-top:25px;
+display:flex;
+gap:15px;
+}
+
+.btn-primary{
+background:linear-gradient(
+90deg,
+#7d42ff,
+#3f74ff
+);
+border:none;
+color:white;
+padding:14px 24px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+}
+
+.btn-secondary{
+background:#13284e;
+border:none;
+color:white;
+padding:14px 24px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+}
+
+/* PAGE CARD */
+
+.page-card{
+background:#071227;
+border:1px solid rgba(255,255,255,.08);
+border-radius:24px;
+padding:25px;
+}
+
+.page-card h2{
+margin-bottom:20px;
+}
+
+.page-card textarea{
+width:100%;
+height:220px;
+background:#020b1e;
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+padding:15px;
+color:white;
+}
+
+.page-card input[type=file]{
+width:100%;
+padding:15px;
+background:#020b1e;
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+color:white;
+}
+
+.page-card button{
+margin-top:15px;
+padding:14px 22px;
+background:linear-gradient(
+90deg,
+#6c46ff,
+#3e6cff
+);
+border:none;
+border-radius:12px;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
+.logout-link{
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+height:38px;
+text-align:center;
+text-decoration:none;
+background:#0e1f3f;
+color:white;
+border-radius:10px;
+margin-top:10px;
+font-size:14px;
+font-weight:500;
+}
+
+.logout-link:hover{
+background:#142b57;
+}
+pre{
+margin-top:20px;
+background:#020b1e;
+padding:20px;
+border-radius:15px;
+white-space:pre-wrap;
+color:#00ffae;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<div class="sidebar">
+
+<div class="logo">
+AI Threat Monitor
+</div>
+
+<a href="/dashboard">📊 Dashboard Overview</a>
+<a href="/document-scanner">📄 Document Scanner</a>
+<a href="/fake-news">📰 Fake News Detect</a>
+<a href="/heatmap">🔥 Threat Heatmap</a>
+<a href="/assistant">🤖 Security AI Assistant</a>
+
+<div class="profile-card">
+<h4>{{ user_name }}</h4>
+<p>{{ user_email }}</p>
+<a href="/logout" class="logout-link">
+    Logout Session
+</a>
+</div>
+
+</div>
+
+<div class="main-content">
+
+<div class="topbar">
+
+<span class="status">
+🟢 GATEWAY : ONLINE
+</span>
+
+<div class="profile">
+🔔 {{ user_name }}
+</div>
+
+</div>
+
+<div class="content-area">
+
+{% if page == "dashboard" %}
+
+<div class="hero-banner">
+
+<div class="version">
+⚡ V5.2.0 • CORE AI MODEL ONLINE
+</div>
+
+<h1>
+Welcome Back, {{ user_name }} 👋
+</h1>
+
+<p>
+Your autonomous enterprise scanner has vetted
+<span>96 documents</span>
+and flagged
+<span class="danger">14 elements</span>
+in the last 24 hours.
+The AI Threat database was updated 4 minutes ago.
+</p>
+
+
+
+</div>
+
+{% endif %}
+
+<div class="page-card">
+
+{% if page == "dashboard" %}
+
+<h2>📊 Dashboard Overview</h2>
+
+<div style="color:white;">
+{% include 'pages/dashboard.html' %}
+</div>
+
+{% elif page == "document" %}
+
+{% include 'pages/document.html' %}
+
+{% elif page == "news" %}
+
+{% include 'pages/news.html' %}
+
+{% elif page == "heatmap" %}
+
+{% include 'pages/heatmap.html' %}
+
+{% elif page == "assistant" %}
+
+{% include 'pages/assistant.html' %}
+
+{% endif %}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

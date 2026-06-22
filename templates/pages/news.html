@@ -1,0 +1,247 @@
+<div class="news-layout">
+
+    <div class="news-left">
+
+        <div class="news-card">
+
+            <div class="news-title">
+                📰 Verify Media Authenticity
+            </div>
+
+            <div class="news-subtitle">
+                Pasted reports undergo semantic parsing against global factuality networks.
+            </div>
+
+            <form action="/check_news" method="POST">
+
+                <div class="news-label">
+                    PASTE NEWS ARTICLE OR CLAIM HEADERS BELOW:
+                </div>
+
+                <textarea
+                    name="news"
+                    placeholder="Paste news broadcast scripts, social channels quote clips, blogs, or sensitive statements to verify credibility indices..."></textarea>
+
+                <div class="news-footer">
+
+                    <span>
+                        READY TO PARSE
+                    </span>
+
+                    <button class="news-btn">
+                        ▶ Analyze News Credibility
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="headline-card">
+
+            <div class="headline-title">
+                ✨ SANDBOX NEWS HEADLINES:
+            </div>
+
+            <div class="headline-item">
+                <span class="fake-tag">FAKE</span>
+                NASA scientists confirm they have picked up active, structured hyper-frequency digital signals on Mars...
+            </div>
+
+            <div class="headline-item">
+                <span class="real-tag">REAL</span>
+                The Federal Reserve announced a 25-basis-point policy interest rate reduction...
+            </div>
+
+            <div class="headline-item">
+                <span class="phish-tag">PHISHING/FAKE</span>
+                Urgent: Major commercial bank systems suffer database overflow...
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="news-right">
+
+        <div class="fact-card">
+
+            <div class="fact-icon">
+                📰
+            </div>
+
+            <h2>
+                Fact Check Analysis Awaiting
+            </h2>
+
+            <p>
+                Enter news content or pick one of our preloaded sandbox headline cards to start assessing facts credibility scores.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if report %}
+<pre>{{ report }}</pre>
+{% endif %}
+
+<style>
+
+.news-layout{
+display:grid;
+grid-template-columns:58% 42%;
+gap:22px;
+}
+
+.news-card{
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+padding:24px;
+}
+
+.news-title{
+font-size:18px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.news-subtitle{
+font-size:13px;
+color:#7f8fb5;
+margin-bottom:18px;
+}
+
+.news-label{
+font-size:12px;
+letter-spacing:1px;
+color:#6d7ca7;
+margin-bottom:10px;
+}
+
+.news-card textarea{
+width:100%;
+height:220px;
+background:#020b1f;
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+padding:16px;
+color:white;
+resize:none;
+}
+
+.news-footer{
+margin-top:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.news-footer span{
+font-size:11px;
+color:#7384ae;
+}
+
+.news-btn{
+padding:14px 28px;
+background:#1b2d4f;
+border:none;
+border-radius:12px;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.fact-card{
+height:100%;
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+}
+
+.fact-icon{
+width:78px;
+height:78px;
+border-radius:50%;
+background:#030c1d;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:38px;
+margin-bottom:20px;
+}
+
+.fact-card h2{
+font-size:18px;
+margin-bottom:10px;
+}
+
+.fact-card p{
+max-width:330px;
+line-height:1.5;
+font-size:14px;
+color:#7d8aac;
+}
+
+.headline-card{
+margin-top:22px;
+background:#071227;
+border:1px solid rgba(255,255,255,.06);
+border-radius:24px;
+padding:20px;
+}
+
+.headline-title{
+font-size:13px;
+letter-spacing:1px;
+color:#8da0d1;
+margin-bottom:18px;
+}
+
+.headline-item{
+background:#041022;
+border:1px solid rgba(255,255,255,.06);
+padding:14px;
+border-radius:14px;
+margin-bottom:12px;
+font-size:14px;
+}
+
+.fake-tag{
+background:#341015;
+color:#ff6161;
+padding:4px 8px;
+border-radius:6px;
+font-size:10px;
+margin-right:8px;
+}
+
+.real-tag{
+background:#0f2f1c;
+color:#22ff8b;
+padding:4px 8px;
+border-radius:6px;
+font-size:10px;
+margin-right:8px;
+}
+
+.phish-tag{
+background:#35200f;
+color:#ffb347;
+padding:4px 8px;
+border-radius:6px;
+font-size:10px;
+margin-right:8px;
+}
+
+</style>

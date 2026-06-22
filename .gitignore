@@ -1,0 +1,4 @@
+fake_news/*.csv
+*.csv
+venv/
+__pycache__/

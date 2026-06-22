@@ -1,0 +1,340 @@
+<div class="stats-grid">
+
+    <div class="stat-card blue">
+        <div class="stat-top">
+            <span>DOCUMENTS SCANNED</span>
+            <div class="icon">📄</div>
+        </div>
+
+        <h1>96</h1>
+
+        <div class="stat-bottom">
+            <span class="positive">↗ +15.5%</span>
+            <span>Vs Last Week</span>
+        </div>
+    </div>
+
+    <div class="stat-card orange">
+        <div class="stat-top">
+            <span>THREATS FLAGGED</span>
+            <div class="icon">🛡️</div>
+        </div>
+
+        <h1>14</h1>
+
+        <div class="stat-bottom">
+            <span class="negative">-8.2%</span>
+            <span>Remediation Rate</span>
+        </div>
+    </div>
+
+    <div class="stat-card red">
+        <div class="stat-top">
+            <span>HIGH RISK FILES</span>
+            <div class="icon">⚠️</div>
+        </div>
+
+        <h1>5</h1>
+
+        <div class="stat-bottom">
+            <span class="critical">CRITICAL</span>
+            <span>Require Sandbox</span>
+        </div>
+    </div>
+
+    <div class="stat-card cyan">
+        <div class="stat-top">
+            <span>NEWS FACT CHECK</span>
+            <div class="icon">📰</div>
+        </div>
+
+        <h1>21</h1>
+
+        <div class="stat-bottom">
+            <span class="info">AI MODEL v3.5</span>
+            <span>98% Accuracy</span>
+        </div>
+    </div>
+
+    <div class="stat-card purple">
+        <div class="stat-top">
+            <span>AI ASSISTANT CHATS</span>
+            <div class="icon">🤖</div>
+        </div>
+
+        <h1>121</h1>
+
+        <div class="stat-bottom">
+            <span class="live">REAL-TIME</span>
+            <span>Sub-second Reply</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="graph-card">
+
+        <h2>📈 Security Threat Analysis Trends</h2>
+
+        <p>
+            Weekly progression of analyzed records and suspicious vectors.
+        </p>
+
+        <canvas id="trendChart"></canvas>
+
+    </div>
+
+    <div class="pie-card">
+
+        <h2>🔒 Vectors Distribution</h2>
+
+        <p>
+            Breakdown of signature matches identified in current database logs.
+        </p>
+
+        <canvas id="vectorChart"></canvas>
+
+        <div class="legend">
+
+            <div>🔴 Malware Keywords</div>
+            <div>🟠 Suspicious Links</div>
+            <div>🟣 Executable Refs</div>
+            <div>🔵 OCR Graphic Risks</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const trend = document.getElementById('trendChart');
+
+new Chart(trend,{
+type:'line',
+data:{
+labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+datasets:[
+{
+label:'Scans',
+data:[3,6,12,9,15,16,95],
+borderColor:'#7c6cff',
+backgroundColor:'rgba(124,108,255,.15)',
+fill:true,
+tension:.4
+},
+{
+label:'Threats Found',
+data:[0,0,2,2,4,15,5],
+borderColor:'#ffae00',
+backgroundColor:'rgba(255,174,0,.10)',
+fill:true,
+tension:.4
+}
+]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{
+labels:{
+color:'#fff'
+}
+}
+},
+scales:{
+x:{
+ticks:{color:'#8892b8'},
+grid:{color:'rgba(255,255,255,.04)'}
+},
+y:{
+ticks:{color:'#8892b8'},
+grid:{color:'rgba(255,255,255,.04)'}
+}
+}
+}
+});
+
+const vector=document.getElementById('vectorChart');
+
+new Chart(vector,{
+type:'doughnut',
+data:{
+labels:[
+'Malware',
+'Links',
+'Executable',
+'OCR'
+],
+datasets:[{
+data:[35,25,20,20],
+backgroundColor:[
+'#ff4d4d',
+'#ffb300',
+'#9b6dff',
+'#18d7ff'
+]
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+cutout:'72%',
+radius:'75%',
+plugins:{
+legend:{
+display:false
+}
+}
+}
+});
+
+</script>
+
+<style>
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:18px;
+margin-top:25px;
+}
+
+.stat-card{
+background:#081427;
+border:1px solid rgba(255,255,255,.05);
+border-radius:18px;
+padding:18px;
+}
+
+.stat-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.stat-top span{
+font-size:11px;
+letter-spacing:2px;
+color:#8f9cc4;
+}
+
+.icon{
+font-size:20px;
+}
+
+.stat-card h1{
+font-size:40px;
+margin-bottom:10px;
+color:white;
+}
+
+.stat-bottom{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:#7f8aad;
+}
+
+.positive{
+color:#7f9dff;
+font-weight:700;
+}
+
+.negative{
+color:#ff9a00;
+font-weight:700;
+}
+
+.critical{
+color:#ff5050;
+font-weight:700;
+}
+
+.info{
+color:#00dfff;
+font-weight:700;
+}
+
+.live{
+color:#cc6cff;
+font-weight:700;
+}
+
+.blue{
+border-left:4px solid #6c63ff;
+}
+
+.orange{
+border-left:4px solid #ff9500;
+}
+
+.red{
+border-left:4px solid #ff4d5a;
+}
+
+.cyan{
+border-left:4px solid #00d9ff;
+}
+
+.purple{
+border-left:4px solid #b84dff;
+}
+
+.dashboard-row{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+margin-top:25px;
+}
+
+.graph-card,
+.pie-card{
+background:#081427;
+border-radius:20px;
+padding:25px;
+border:1px solid rgba(255,255,255,.05);
+}
+
+.graph-card h2,
+.pie-card h2{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.graph-card p,
+.pie-card p{
+font-size:13px;
+color:#8c97b7;
+margin-bottom:20px;
+}
+
+#trendChart{
+height:350px !important;
+}
+
+#vectorChart{
+height:180px !important;
+max-height:180px;
+width:180px !important;
+max-width:180px;
+margin:auto;
+display:block;
+}
+
+.legend{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+color:#d5dbff;
+font-size:14px;
+}
+
+</style>
