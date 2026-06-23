@@ -20,9 +20,7 @@ def detect_news(news_text):
     confidence = model.predict_proba(transformed).max()
     confidence = round(confidence * 100, 2)
 
-    if confidence < 75:
-        result = "UNCERTAIN"
-    elif prediction == 1:
+    if prediction == 1:
         result = "REAL NEWS"
     else:
         result = "FAKE NEWS"
